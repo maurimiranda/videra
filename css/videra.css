@@ -1,0 +1,59 @@
+html, body {
+  height: 100%;
+}
+
+.fill {
+  height: 100%;
+}
+
+#map {
+  width: 100%;
+  min-height: 100%;
+  display: block;
+}
+
+/* Boostrap overrides */
+
+.sidebar-nav {
+  padding: 9px 0;
+}
+
+@media (max-width: 980px) {
+  /* Enable use of floated navbar text */
+  .navbar-text.pull-right {
+    float: none;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+.container-fluid {
+  padding: 0px;
+}
+
+.navbar .brand {
+  padding-left: 30px;
+}
+
+/* Leaflet overrides */
+
+.leaflet-top {
+  top: 40px;
+}
+
+.leaflet-control-layers label {
+  font-size: 10px;
+}
+
+.leaflet-control-scale-line {
+  border-color: black;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: transparent;
+  color: black;
+  text-shadow: 1px 1px 1px #fff;
+  box-shadow: none;
+}
