@@ -1,1 +1,1 @@
-<?php echo phpinfo(); ?>
+index.html
