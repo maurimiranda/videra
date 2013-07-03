@@ -31,14 +31,20 @@ html, body {
   padding: 0px;
 }
 
+.navbar-inverse .navbar-inner {
+  background-color: rgba(0,0,0,0.9);
+  background-image: none;
+}
+
 .navbar .brand {
   padding-left: 30px;
+  padding-top: 14px;
 }
 
 /* Leaflet overrides */
 
 .leaflet-top {
-  top: 40px;
+  top: 50px;
 }
 
 .leaflet-control-layers label {
@@ -56,4 +62,31 @@ html, body {
   color: black;
   text-shadow: 1px 1px 1px #fff;
   box-shadow: none;
+}
+
+.leaflet-control-minimap {
+  border: none;
+  box-shadow: 0 1px 7px rgba(0,0,0,0.65);
+  background: white;
+  border-radius: 0px;
+}
+
+.leaflet-container .leaflet-control-zoomslider {
+  width: 26px;
+  margin-left: 10px;
+}
+
+.leaflet-control-zoomslider a {
+  width: 26px;
+  height: inherit;
+}
+
+.leaflet-control-zoomslider-slider-knob {
+  width: 17px;
+}
+
+.dropdown-menu > li > div {
+  margin-bottom: 5px;
+  padding: 5px;
+  background-color: lightblue;
 }

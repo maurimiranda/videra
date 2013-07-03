@@ -9,9 +9,12 @@
 
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/leaflet.css" rel="stylesheet">
     <link href="css/leaflet_plugins/L.Control.MousePosition.css" rel="stylesheet">
     <link href="css/leaflet_plugins/L.Control.Zoomslider.css" rel="stylesheet">
+    <link href="css/leaflet_plugins/Control.MiniMap.css" rel="stylesheet">
+    <link href="css/leaflet_plugins/L.Control.Locate.css" rel="stylesheet">
     <link href="css/videra.css" rel="stylesheet">
 
     <link rel="shortcut icon" href="img/favicon.png">
@@ -30,9 +33,26 @@
           <a class="brand" href="#">Visualizador IDERA</a>
           <div class="nav-collapse collapse">
             <ul class="nav pull-right">
-              <li><a href="#about" data-toggle="modal">Acerca de</a></li>
+              <li title="Agregar capa">
+                <a data-target="#addOverlay" data-toggle="modal"><i class="icon-plus-sign icon-2x"></i></a>
+              </li>
+              <li class="dropdown" title="Capas superspuestas">
+                <a data-target="#" class="dropdowntoggle" data-toggle="dropdown"><i class="icon-ok-sign icon-2x"></i></a>
+                <ul id="overlayLayers" class="dropdown-menu">
+                  <li class="nav-header">Capas superpuestas</li>
+                </ul>
+              </li>
+              <li class="dropdown" title="Capas base">
+                <a data-target="#" class="dropdowntoggle" data-toggle="dropdown"><i class="icon-globe icon-2x"></i></a>
+                <ul id="baseLayers" class="dropdown-menu">
+                  <li class="nav-header">Capas base</li>
+                </ul>
+              </li>
+              <li title="Acerca de">
+                <a data-target="#about" data-toggle="modal"><i class="icon-info-sign icon-2x"></i></a>
+              </li>
             </ul>
-          </div><!--/.nav-collapse -->
+          </div>
         </div>
       </div>
     </div>
@@ -42,10 +62,9 @@
         <div class="span12 fill">
           <div id="map" class="fill">
           </div>
-        </div><!--/span-->
-      </div><!--/row-->
-
-    </div><!--/.fluid-container-->
+        </div>
+      </div>
+    </div>
 
     <div id="about" class="modal hide fade" tabindex="-1" role="dialog">
       <div class="modal-header">
@@ -59,11 +78,24 @@
       </div>
     </div>
 
+    <div id="addOverlay" class="modal hide fade" tabindex="-1" role="dialog">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Agregar capa superpuesta</h3>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+    </div>
+
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/leaflet.js"></script>
     <script src="js/leaflet_plugins/L.Control.MousePosition.js"></script>
     <script src="js/leaflet_plugins/L.Control.Zoomslider.js"></script>
+    <script src="js/leaflet_plugins/Control.MiniMap.js"></script>
+    <script src="js/leaflet_plugins/L.Control.Locate.js"></script>
+    <script src="js/leaflet_plugins/ActiveLayers.js"></script>
     <script src="js/videra.js"></script>
   </body>
 </html>
