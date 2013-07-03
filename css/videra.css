@@ -4,12 +4,22 @@ html, body {
 
 .fill {
   height: 100%;
+  width: 100%;
 }
 
 #map {
   width: 100%;
   min-height: 100%;
   display: block;
+}
+
+#addOverlay select {
+  min-height: 300px;
+}
+
+#layerInfo {
+  height: 60px;
+  overflow: scroll;
 }
 
 /* Boostrap overrides */
@@ -39,6 +49,13 @@ html, body {
 .navbar .brand {
   padding-left: 30px;
   padding-top: 14px;
+}
+.modal, .modal.fade.in {
+  top: 5%;
+}
+
+.modal-body {
+  max-height: 800px;
 }
 
 /* Leaflet overrides */

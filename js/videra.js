@@ -1,10 +1,21 @@
 var map;
 var baseLayers;
 var overlayLayers;
-var layersControl;
+var wmsSources;
+var wmsLayers;
+var selectedLayerName;
+var selectedLayer;
 
 $(document).ready(function() {
+  $.ajaxPrefilter( function( options ) {
+    if ( options.crossDomain ) {
+      options.url = "proxy.php?mode=native&url=" + encodeURIComponent(options.url);
+      options.crossDomain = false;
+    }
+  });
+
   createMap();
+  loadServices();
 });
 
 function createMap() {
@@ -54,7 +65,7 @@ function createMap() {
 function configBaseLayers() {
   var first = true;
   $.each(baseLayers, function (title, layer) {
-    layerItem = $("<li layer='" + title + "'><a href='#'>" + title + "</a></li>");
+    layerItem = $("<li />").attr("layer", title).append($("<a />").text(title));
     if (first) {
       layerItem.addClass('active');
       first = false;
@@ -73,4 +84,58 @@ function configBaseLayers() {
     });
     $("#baseLayers").append(layerItem);
   });
+}
+
+function loadServices() {
+  $.ajax({
+    url: 'http://mapa.ign.gob.ar/idera.jquery/servicios_wms.json',
+    dataType: "json",
+    success: function (result) {
+      wmsSources = result;
+      sources = $("#sources");
+      $.each(wmsSources, function (key, source) {
+        sourceItem = $("<option />").val(key).text(source.title).attr('title', source.title);
+        sourceItem.click(function () {
+          loadLayers(wmsSources[this.value]);
+        });
+        sources.append(sourceItem);
+      });
+    }
+  });
+}
+
+function loadLayers (source) {
+  $("#layerInfo").html('');
+  $("#addLayerButton").attr('disabled', true);
+  layers = $("#layers");
+  layers.html('');
+  layers.attr('disabled', true);
+  $.ajax({
+      url:  source.url + "service=wms&request=GetCapabilities",
+      dataType: "xml",
+      success: function(result) {
+        wmsLayers = result;
+        $(wmsLayers).find("Layer").each(function () {
+            if ($(this).children("Name").text() != '') {
+              layerItem = $("<option />").val($(this).children("Name").text()).text($(this).children("Title").text()).attr('title', $(this).children("Title").text());
+              layerItem.click(function () {
+                selectedLayerName = this.value;
+                selectedLayer = $(wmsLayers).find("Layer > Name:contains(" + selectedLayerName + ")").filter(function(){return $(this).text() == selectedLayerName;}).parent();
+                loadLayerInfo();
+                $("#addLayerButton").attr('disabled', false);
+              });
+              layers.append(layerItem);
+            }
+        });
+        layers.attr('disabled', false);
+      }
+  });
+}
+
+function loadLayerInfo () {
+  $("#layerInfo").html($(selectedLayer).children("Abstract").text());
+}
+
+function addOverlayLayer () {
+
 }
