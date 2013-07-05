@@ -13,13 +13,20 @@ html, body {
   display: block;
 }
 
-#addOverlay select {
+#add-overlay select {
   min-height: 300px;
 }
 
-#layerInfo {
+#layer-info {
   height: 60px;
   overflow: scroll;
+}
+
+.layer-icon {
+  margin-right: -5px;
+  margin-top: 5px;
+  margin-left: 15px;
+  float: right;
 }
 
 /* Boostrap overrides */
@@ -50,6 +57,20 @@ html, body {
   padding-left: 30px;
   padding-top: 14px;
 }
+
+.dropdown-menu > li > a {
+  margin: 3px 0px 3px 0px;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+  background-color: #468847;
+  background-image: none;
+}
+
+.navbar .pull-right > li > .dropdown-menu:after, .navbar .nav > li > .dropdown-menu.pull-right:after {
+  right: 20px;
+}
+
 .modal, .modal.fade.in {
   top: 5%;
 }
@@ -85,7 +106,6 @@ html, body {
   border: none;
   box-shadow: 0 1px 7px rgba(0,0,0,0.65);
   background: white;
-  border-radius: 0px;
 }
 
 .leaflet-container .leaflet-control-zoomslider {
@@ -93,17 +113,19 @@ html, body {
   margin-left: 10px;
 }
 
+.leaflet-bar a, .leaflet-bar a:hover {
+  border-bottom: none;
+}
+
 .leaflet-control-zoomslider a {
   width: 26px;
   height: inherit;
 }
 
-.leaflet-control-zoomslider-slider-knob {
-  width: 17px;
+.leaflet-control-zoomslider-slider {
+  background-color: rgba(255,255,255,0.75);
 }
 
-.dropdown-menu > li > div {
-  margin-bottom: 5px;
-  padding: 5px;
-  background-color: lightblue;
+.leaflet-control-zoomslider-slider-knob {
+  width: 17px;
 }
