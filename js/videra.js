@@ -1,11 +1,10 @@
 var map;
-var baseLayers;
-var overlayLayers;
 var wmsSources;
 var wmsLayers;
 var selectedServer;
 var selectedLayerName;
 var selectedLayer;
+var layersMenu;
 
 $(document).ready(function() {
   $.ajaxPrefilter( function( options ) {
@@ -28,7 +27,7 @@ $(document).ready(function() {
 
 function createMap() {
   // Create a map in the "map" div
-  map = L.map('map', {zoomsliderControl: false, attributionControl: false}).setView([-35, -64], 4);
+  map = L.map('map', {attributionControl: false}).setView([-35, -64], 4);
 
   // Create layers
   var sac_c = L.tileLayer.wms("http://wms.ign.gob.ar/geoserver/gwc/service/wms?", {
@@ -57,50 +56,18 @@ function createMap() {
     "Satelital SAC-C": sac_c
   };
 
-  overlayLayers = {
-    "Capa Base SIG 250": argenmap,
-    "Satelital SAC-C": sac_c,
-    "Capa Base SIG 250": argenmap,
-    "Satelital SAC-C": sac_c
+  overlays = {
   };
-
-  configOverlayLayersMenu();
 
   // Add default layer
   argenmap.addTo(map);
 
   // Add controls
+  layersMenu = L.control.layersMenu(baseLayers, overlays).addTo(map);
   L.control.mousePosition({emptyString: ''}).addTo(map);
   L.control.scale({imperial: false}).addTo(map);
   L.control.minimap(minimap).addTo(map);
   L.control.locate().addTo(map);
-  L.control.zoomslider().addTo(map);
-
-  configBaseLayersMenu();
-}
-
-function configBaseLayersMenu() {
-  var first = true;
-  $.each(baseLayers, function (title, layer) {
-    layerItem = $("<li />").attr("layer", title).append($("<a />").text(title));
-    if (first) {
-      layerItem.addClass('active');
-      first = false;
-    }
-    layerItem.click(function () {
-      $("#base-layers li").removeClass('active');
-      $(this).addClass('active');
-      layerTitle = $(this).attr('layer');
-      $.each(baseLayers, function (title, layer) {
-        if (title == layerTitle) {
-          map.addLayer(layer);
-        } else {
-          map.removeLayer(layer);
-        }
-      });
-    });
-    $("#base-layers").append(layerItem);
-  });
 }
 
 function loadServices() {
@@ -162,37 +129,6 @@ function addOverlayLayer () {
     attribution: selectedServer.title
   });
 
-  overlayLayers[$(selectedLayer).children("Title").text()] = layer;
   map.addLayer(layer);
-  configOverlayLayersMenu();
-}
-
-function configOverlayLayersMenu () {
-  $("#overlay-layers > li:not('.nav-header')").remove();
-  $.each(overlayLayers, function (title, layer) {
-    layerIcon = $("<i class='icon-remove-sign icon-large layer-icon' />");
-    layerIcon.click(function () {
-      removeOverlayLayer($(this).parent().parent().attr('layer'));
-      $(this).parent().parent().remove();
-    })
-    layerItem = $("<li />").attr("layer", title).append($("<a />").text(title).append(layerIcon));
-    if (map.hasLayer(layer)) {
-      layerItem.addClass('active');
-    }
-    layerItem.click(function () {
-      if ($(this).hasClass('active')) {
-        $(this).removeClass('active');
-        map.removeLayer(overlayLayers[$(this).attr("layer")]);
-      } else {
-        $(this).addClass('active');
-        map.addLayer(overlayLayers[$(this).attr("layer")]);
-      };
-    });
-    $("#overlay-layers").append(layerItem);
-  });
-}
-
-function removeOverlayLayer(layer) {
-  map.removeLayer(overlayLayers[layer]);
-  delete overlayLayers[layer];
+  layersMenu.addOverlay(layer, selectedLayerName);
 }
