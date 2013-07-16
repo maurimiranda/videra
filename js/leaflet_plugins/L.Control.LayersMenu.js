@@ -4,83 +4,11 @@
  */
 
 L.Control.LayersMenu = L.Control.Layers.extend({
-  options: {
-    collapsed: true,
-    position: 'topright',
-    autoZIndex: true
-  },
-
-  initialize: function (baseLayers, overlays, options) {
-    L.setOptions(this, options);
-
-    this._layers = {};
-    this._lastZIndex = 0;
-    this._handlingClick = false;
-
-    for (var i in baseLayers) {
-      this._addLayer(baseLayers[i], i);
-    }
-
-    for (i in overlays) {
-      this._addLayer(overlays[i], i, true);
-    }
-  },
-
-  onAdd: function (map) {
-    this._initLayout();
-    this._update();
-
-    map
-        .on('layeradd', this._onLayerChange, this)
-        .on('layerremove', this._onLayerChange, this);
-
-    return this._container;
-  },
-
-  onRemove: function (map) {
-    map
-        .off('layeradd', this._onLayerChange)
-        .off('layerremove', this._onLayerChange);
-  },
-
-  addBaseLayer: function (layer, name) {
-    this._addLayer(layer, name);
-    this._update();
-    return this;
-  },
-
-  addOverlay: function (layer, name) {
-    this._addLayer(layer, name, true);
-    this._update();
-    return this;
-  },
-
-  removeLayer: function (layer) {
-    var id = L.stamp(layer);
-    delete this._layers[id];
-    this._update();
-    return this;
-  },
-
+  
   _initLayout: function () {
     this._container = L.DomUtil.create('div');
     this._baseLayersList = L.DomUtil.get('base-layers');
     this._overlaysList = L.DomUtil.get('overlays');
-  },
-
-  _addLayer: function (layer, name, overlay) {
-    var id = L.stamp(layer);
-
-    this._layers[id] = {
-      layer: layer,
-      name: name,
-      overlay: overlay
-    };
-
-    if (this.options.autoZIndex && layer.setZIndex) {
-      this._lastZIndex++;
-      layer.setZIndex(this._lastZIndex);
-    }
   },
 
   _update: function () {
@@ -100,24 +28,6 @@ L.Control.LayersMenu = L.Control.Layers.extend({
       this._addItem(obj);
       overlaysPresent = overlaysPresent || obj.overlay;
       baseLayersPresent = baseLayersPresent || !obj.overlay;
-    }
-  },
-
-  _onLayerChange: function (e) {
-    var obj = this._layers[L.stamp(e.layer)];
-
-    if (!obj) { return; }
-
-    if (!this._handlingClick) {
-      this._update();
-    }
-
-    var type = obj.overlay ?
-      (e.type === 'layeradd' ? 'overlayadd' : 'overlayremove') :
-      (e.type === 'layeradd' ? 'baselayerchange' : null);
-
-    if (type) {
-      this._map.fire(type, obj);
     }
   },
 
@@ -151,9 +61,10 @@ L.Control.LayersMenu = L.Control.Layers.extend({
     obj = this._layers[item.layerId];
 
     if (L.DomUtil.hasClass(item, 'active')) {
+      if (!obj.overlay) return;
       L.DomUtil.removeClass(item, 'active');
+      this._map.removeLayer(obj.layer);
     } else {
-      L.DomUtil.addClass(item, 'active');
       if (!obj.overlay) {
         items = item.parentNode.getElementsByTagName('li');
         for (var i = 0; i < items.length; ++i) {
@@ -163,14 +74,10 @@ L.Control.LayersMenu = L.Control.Layers.extend({
           }
         }    
       }
-    }
-
-    if (L.DomUtil.hasClass(item, 'active') && !this._map.hasLayer(obj.layer)) {
+      L.DomUtil.addClass(item, 'active');
       this._map.addLayer(obj.layer);
-    } else if (!L.DomUtil.hasClass(item, 'active') && this._map.hasLayer(obj.layer)) {
-      this._map.removeLayer(obj.layer);
     }
-
+      
     this._handlingClick = false;
   }
 
