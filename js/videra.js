@@ -1,5 +1,5 @@
 var map;
-var wmsManger;
+var wmsManager;
 var layersMenu;
 
 $(document).ready(function() {
@@ -54,7 +54,7 @@ $(document).ready(function() {
   L.control.locate().addTo(map);
 
   // Create WMSManager object
-  wmsManger = new WMSManager({
+  wmsManager = new WMSManager({
     sourcesContainer: $("#sources"), 
     layersContainer: $("#layers"),
     layersInfoContainer: $("#layer-info")
@@ -62,13 +62,13 @@ $(document).ready(function() {
 
   $("#add-layer-button").click(function () {
     $("#add-overlay").modal("hide");
-    var layer = L.tileLayer.wms(wmsManger.getServer().url, {
-      layers: wmsManger.getLayer().name,
+    var layer = L.tileLayer.wms(wmsManager.getServer().url, {
+      layers: wmsManager.getLayer().name,
       format: 'image/png',
       transparent: true,
-      attribution: wmsManger.getServer().title
+      attribution: wmsManager.getServer().title
     });
     map.addLayer(layer);
-    layersMenu.addOverlay(layer, wmsManger.getLayer().name);
+    layersMenu.addOverlay(layer, wmsManager.getLayer().name);
   });
 });

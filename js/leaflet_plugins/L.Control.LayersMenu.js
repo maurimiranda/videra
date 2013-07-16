@@ -16,8 +16,8 @@ L.Control.LayersMenu = L.Control.Layers.extend({
       return;
     }
 
-    this._baseLayersList.innerHTML = '';
-    this._overlaysList.innerHTML = '';
+    this._baseLayersList.innerHTML = '<li class="nav-header">Capas base</li>';
+    this._overlaysList.innerHTML = '<li class="nav-header">Otras capas</li>';
 
     var baseLayersPresent = false,
         overlaysPresent = false,
