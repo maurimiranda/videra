@@ -68,7 +68,7 @@ L.Control.LayersMenu = L.Control.Layers.extend({
       if (!obj.overlay) {
         items = item.parentNode.getElementsByTagName('li');
         for (var i = 0; i < items.length; ++i) {
-          if (items[i] != item) {
+          if (!L.DomUtil.hasClass(items[i], 'nav-header') && items[i] != item) {
             L.DomUtil.removeClass(items[i], 'active');
             this._map.removeLayer(this._layers[items[i].layerId].layer);
           }

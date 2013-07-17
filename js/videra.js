@@ -71,4 +71,8 @@ $(document).ready(function() {
     map.addLayer(layer);
     layersMenu.addOverlay(layer, wmsManager.getLayer().name);
   });
+
+  $('a.dropdown-toggle, .dropdown-menu a').on('touchstart', function(e) {
+    e.stopPropagation();
+  });
 });

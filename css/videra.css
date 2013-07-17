@@ -116,16 +116,3 @@ html, body {
 .leaflet-bar a, .leaflet-bar a:hover {
   border-bottom: none;
 }
-
-.leaflet-control-zoomslider a {
-  width: 26px;
-  height: inherit;
-}
-
-.leaflet-control-zoomslider-slider {
-  background-color: rgba(255,255,255,0.75);
-}
-
-.leaflet-control-zoomslider-slider-knob {
-  width: 17px;
-}
