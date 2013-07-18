@@ -22,6 +22,10 @@
 
   <body>
 
+    <script type="text/template" id="servers-list-template">
+      <option class="test" value="<%= name %>"><%= title %></option>
+    </script>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -85,7 +89,7 @@
           <div class="row-fluid fill">
             <div class="span6 fill">
               <h4>Fuentes</h4>
-              <select id="sources" class="fill" size="10"></select>
+              <select id="servers" class="fill" size="10"></select>
             </div>
             <div class="span6 fill">
               <h4>Capas</h4>
