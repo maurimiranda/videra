@@ -6,12 +6,7 @@ var Server = Backbone.Model.extend({
 
 var Servers = Backbone.Collection.extend({
   model: Server,
-  url: 'http://mapa.ign.gob.ar/idera.jquery/servicios_wms.json',
-  parse: function (response) {
-    return _(response).map(function (v, k) {
-      return _.extend({name: k}, v);
-    });
-  }
+  url: 'http://mapa.ign.gob.ar/idera.jquery/servicios_wms.json'
 });
 
 var Layer = Backbone.Model.extend({
@@ -101,7 +96,6 @@ var ServersList = Backbone.View.extend({
 var ServerOption = Backbone.View.extend({
 
   tagName: "option",
-  template: _.template($("#servers-list-template").html()),
 
   events: {
     "click": "loadLayers"
@@ -111,7 +105,8 @@ var ServerOption = Backbone.View.extend({
   },
 
   render: function () {
-    this.$el.html(this.template({name: this.model.get("name"), title: this.model.get("title")}));
+    this.$el.val(this.model.get("id"));
+    this.$el.text(this.model.get("title"));
     return this;
   },
 
@@ -123,5 +118,4 @@ var ServerOption = Backbone.View.extend({
 
 var mapview = new MapView();
 var servers = new ServersList();
-
 })(jQuery);
